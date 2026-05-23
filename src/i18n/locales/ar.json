@@ -1,0 +1,46 @@
+{
+  "app": {
+    "title": "🕋 معمل تحفيظ القرآن",
+    "subtitle": "صمم رحلة حفظك الشخصية",
+    "description": "قم بتكوين خطتك وانقر على 'إنشاء الخطة' للبدء!"
+  },
+  "controls": {
+    "selectSurah": "اختر السورة",
+    "startAyah": "الآية الأولى",
+    "endAyah": "الآية الأخيرة",
+    "duration": "المدة",
+    "durationDays": "يوم",
+    "generatePlan": "إنشاء الخطة",
+    "generating": "جاري الإنشاء...",
+    "language": "اللغة"
+  },
+  "stats": {
+    "totalVerses": "إجمالي الآيات",
+    "versesPerDay": "آيات/يوم",
+    "estimatedTime": "إجمالي الوقت المقدر",
+    "minutes": "دقيقة"
+  },
+  "plan": {
+    "title": "خطة الحفظ الخاصة بك",
+    "daily": "الجدول اليومي",
+    "planHeader": "خطة الحفظ",
+    "day": "اليوم",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "sabaq": "📖 الدرس الجديد",
+    "manzil": "🔄 المراجعة",
+    "verses": "الآيات",
+    "revisions": "المراجعات"
+  },
+  "errors": {
+    "endLessThanStart": "الآية الأخيرة لا يمكن أن تكون أقل من الآية الأولى",
+    "invalidDays": "يجب أن تكون الأيام بين 1 و 365",
+    "failedToLoad": "فشل تحميل السور",
+    "failedToGenerate": "فشل إنشاء الخطة",
+    "missingFields": "حقول مفقودة"
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية"
+  }
+}

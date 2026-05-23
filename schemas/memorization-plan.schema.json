@@ -1,0 +1,281 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quranic Memorization Plan Schema",
+  "description": "JSON Schema for a Quranic memorization plan with daily targets, revision cycles, and progress tracking",
+  "type": "object",
+  "required": [
+    "id",
+    "userId",
+    "planName",
+    "targetSurah",
+    "startDate",
+    "endDate",
+    "totalDays",
+    "totalVerses",
+    "dailyTargets",
+    "revisionCycles",
+    "progress",
+    "overallRetentionScore",
+    "completionPercentage",
+    "streak",
+    "createdAt",
+    "updatedAt",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the plan",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "userId": {
+      "type": "string",
+      "description": "User ID associated with this plan"
+    },
+    "planName": {
+      "type": "string",
+      "description": "Human-readable name for the plan",
+      "examples": ["Surah Al-Kahf 30-Day Challenge"]
+    },
+    "targetSurah": {
+      "type": "object",
+      "required": ["number", "name", "totalVerses", "arabicName"],
+      "properties": {
+        "number": {
+          "type": "integer",
+          "description": "Surah number in the Quran (1-114)"
+        },
+        "name": {
+          "type": "string",
+          "description": "English name of the Surah"
+        },
+        "totalVerses": {
+          "type": "integer",
+          "description": "Total number of verses in the Surah"
+        },
+        "arabicName": {
+          "type": "string",
+          "description": "Arabic name of the Surah"
+        }
+      }
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Plan start date (ISO 8601 format)"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Planned end date (ISO 8601 format)"
+    },
+    "totalDays": {
+      "type": "integer",
+      "description": "Total duration of the plan in days",
+      "minimum": 1
+    },
+    "totalVerses": {
+      "type": "integer",
+      "description": "Total verses to memorize"
+    },
+    "dailyTargets": {
+      "type": "array",
+      "description": "Daily targets for each day of the plan",
+      "items": {
+        "$ref": "#/definitions/DailyTarget"
+      }
+    },
+    "revisionCycles": {
+      "type": "array",
+      "description": "Revision cycles with specific patterns",
+      "items": {
+        "$ref": "#/definitions/RevisionCycle"
+      }
+    },
+    "progress": {
+      "type": "array",
+      "description": "Progress tracking entries",
+      "items": {
+        "$ref": "#/definitions/ProgressEntry"
+      }
+    },
+    "overallRetentionScore": {
+      "type": "number",
+      "description": "Overall retention score (0-100)",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "completionPercentage": {
+      "type": "number",
+      "description": "Plan completion percentage (0-100)",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "streak": {
+      "type": "integer",
+      "description": "Current consecutive days completed",
+      "minimum": 0
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the plan was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the plan was last updated"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "completed", "paused", "abandoned"],
+      "description": "Current status of the plan"
+    }
+  },
+  "definitions": {
+    "QuranicReference": {
+      "type": "object",
+      "required": ["surah", "startVerse", "endVerse"],
+      "properties": {
+        "surah": {
+          "type": "integer",
+          "description": "Surah number",
+          "minimum": 1,
+          "maximum": 114
+        },
+        "startVerse": {
+          "type": "integer",
+          "description": "Starting verse number",
+          "minimum": 1
+        },
+        "endVerse": {
+          "type": "integer",
+          "description": "Ending verse number",
+          "minimum": 1
+        }
+      }
+    },
+    "DailyTarget": {
+      "type": "object",
+      "required": ["day", "date", "sabaq", "manzil", "estimatedMinutes", "priority"],
+      "properties": {
+        "day": {
+          "type": "integer",
+          "description": "Day number in the plan",
+          "minimum": 1
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date for this daily target (YYYY-MM-DD)"
+        },
+        "sabaq": {
+          "description": "New lesson to memorize",
+          "$ref": "#/definitions/QuranicReference"
+        },
+        "manzil": {
+          "type": "array",
+          "description": "Revision portions (Quranic sections)",
+          "items": {
+            "$ref": "#/definitions/QuranicReference"
+          }
+        },
+        "estimatedMinutes": {
+          "type": "integer",
+          "description": "Estimated time to complete in minutes",
+          "minimum": 5
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "Priority level"
+        }
+      }
+    },
+    "RevisionCycle": {
+      "type": "object",
+      "required": ["cycleNumber", "name", "daysAfterSabaq", "verseRange", "frequency"],
+      "properties": {
+        "cycleNumber": {
+          "type": "integer",
+          "description": "Revision cycle number",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the cycle",
+          "examples": ["First Review", "Second Review", "Weekly Consolidation"]
+        },
+        "daysAfterSabaq": {
+          "type": "integer",
+          "description": "Number of days after Sabaq to schedule this revision",
+          "minimum": 1
+        },
+        "verseRange": {
+          "$ref": "#/definitions/QuranicReference"
+        },
+        "frequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "biweekly"],
+          "description": "Frequency of this revision cycle"
+        }
+      }
+    },
+    "ProgressEntry": {
+      "type": "object",
+      "required": [
+        "day",
+        "date",
+        "sabaqCompleted",
+        "sabaqVerses",
+        "sabaqRetentionScore",
+        "manzilCompleted",
+        "manzilRetentionScores",
+        "sessionDuration"
+      ],
+      "properties": {
+        "day": {
+          "type": "integer",
+          "description": "Day number"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "sabaqCompleted": {
+          "type": "boolean",
+          "description": "Whether the new lesson was completed"
+        },
+        "sabaqVerses": {
+          "type": "integer",
+          "description": "Number of verses memorized in the new lesson"
+        },
+        "sabaqRetentionScore": {
+          "type": "number",
+          "description": "Retention score for new lesson (0-100)",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "manzilCompleted": {
+          "type": "array",
+          "description": "Completed revision portions",
+          "items": {
+            "$ref": "#/definitions/QuranicReference"
+          }
+        },
+        "manzilRetentionScores": {
+          "type": "object",
+          "description": "Retention scores for each revision portion"
+        },
+        "notesOrChallenges": {
+          "type": "string",
+          "description": "Optional notes about challenges or progress"
+        },
+        "sessionDuration": {
+          "type": "integer",
+          "description": "Total session duration in minutes"
+        }
+      }
+    }
+  }
+}

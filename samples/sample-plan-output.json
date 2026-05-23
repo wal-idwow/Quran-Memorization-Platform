@@ -1,0 +1,224 @@
+{
+  "id": "plan_sample_alkahf_30day",
+  "userId": "user_12345",
+  "planName": "Surah Al-Kahf 30-Day Memorization Challenge",
+  "targetSurah": {
+    "number": 18,
+    "name": "Al-Kahf",
+    "totalVerses": 110,
+    "arabicName": "الكهف"
+  },
+  "startDate": "2024-01-15T00:00:00.000Z",
+  "endDate": "2024-02-14T00:00:00.000Z",
+  "totalDays": 30,
+  "totalVerses": 110,
+  "dailyTargets": [
+    {
+      "day": 1,
+      "date": "2024-01-15",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 4
+      },
+      "manzil": [],
+      "estimatedMinutes": 9,
+      "priority": "high"
+    },
+    {
+      "day": 2,
+      "date": "2024-01-16",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 5,
+        "endVerse": 8
+      },
+      "manzil": [
+        {
+          "surah": 18,
+          "startVerse": 1,
+          "endVerse": 4
+        }
+      ],
+      "estimatedMinutes": 12,
+      "priority": "high"
+    },
+    {
+      "day": 3,
+      "date": "2024-01-17",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 9,
+        "endVerse": 12
+      },
+      "manzil": [
+        {
+          "surah": 18,
+          "startVerse": 5,
+          "endVerse": 8
+        }
+      ],
+      "estimatedMinutes": 12,
+      "priority": "high"
+    },
+    {
+      "day": 4,
+      "date": "2024-01-18",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 13,
+        "endVerse": 16
+      },
+      "manzil": [
+        {
+          "surah": 18,
+          "startVerse": 9,
+          "endVerse": 12
+        },
+        {
+          "surah": 18,
+          "startVerse": 1,
+          "endVerse": 4
+        }
+      ],
+      "estimatedMinutes": 15,
+      "priority": "high"
+    },
+    {
+      "day": 5,
+      "date": "2024-01-19",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 17,
+        "endVerse": 20
+      },
+      "manzil": [
+        {
+          "surah": 18,
+          "startVerse": 13,
+          "endVerse": 16
+        },
+        {
+          "surah": 18,
+          "startVerse": 5,
+          "endVerse": 8
+        }
+      ],
+      "estimatedMinutes": 15,
+      "priority": "high"
+    },
+    {
+      "day": 7,
+      "date": "2024-01-21",
+      "sabaq": {
+        "surah": 18,
+        "startVerse": 25,
+        "endVerse": 28
+      },
+      "manzil": [
+        {
+          "surah": 18,
+          "startVerse": 1,
+          "endVerse": 28
+        }
+      ],
+      "estimatedMinutes": 27,
+      "priority": "high"
+    }
+  ],
+  "revisionCycles": [
+    {
+      "cycleNumber": 1,
+      "name": "First Review",
+      "daysAfterSabaq": 1,
+      "verseRange": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 4
+      },
+      "frequency": "daily"
+    },
+    {
+      "cycleNumber": 2,
+      "name": "Second Review",
+      "daysAfterSabaq": 3,
+      "verseRange": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 8
+      },
+      "frequency": "daily"
+    },
+    {
+      "cycleNumber": 3,
+      "name": "Third Review",
+      "daysAfterSabaq": 7,
+      "verseRange": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 28
+      },
+      "frequency": "daily"
+    },
+    {
+      "cycleNumber": 4,
+      "name": "Deep Consolidation",
+      "daysAfterSabaq": 14,
+      "verseRange": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 56
+      },
+      "frequency": "biweekly"
+    },
+    {
+      "cycleNumber": 5,
+      "name": "Maintenance Phase",
+      "daysAfterSabaq": 30,
+      "verseRange": {
+        "surah": 18,
+        "startVerse": 1,
+        "endVerse": 110
+      },
+      "frequency": "weekly"
+    }
+  ],
+  "progress": [
+    {
+      "day": 1,
+      "date": "2024-01-15",
+      "sabaqCompleted": true,
+      "sabaqVerses": 4,
+      "sabaqRetentionScore": 90,
+      "manzilCompleted": [],
+      "manzilRetentionScores": {},
+      "notesOrChallenges": "Good progress! Felt comfortable with the verses.",
+      "sessionDuration": 45
+    },
+    {
+      "day": 2,
+      "date": "2024-01-16",
+      "sabaqCompleted": true,
+      "sabaqVerses": 4,
+      "sabaqRetentionScore": 85,
+      "manzilCompleted": [
+        {
+          "surah": 18,
+          "startVerse": 1,
+          "endVerse": 4
+        }
+      ],
+      "manzilRetentionScores": {
+        "1-4": 88
+      },
+      "notesOrChallenges": "Reviewed Day 1 successfully. New verses are clear.",
+      "sessionDuration": 50
+    }
+  ],
+  "overallRetentionScore": 87,
+  "completionPercentage": 7,
+  "streak": 2,
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-16T18:45:00.000Z",
+  "status": "active"
+}

@@ -1,0 +1,46 @@
+{
+  "app": {
+    "title": "🕋 Quran Memorization Lab",
+    "subtitle": "Design Your Personalized Memorization Journey",
+    "description": "Configure your plan and click 'Generate Plan' to get started!"
+  },
+  "controls": {
+    "selectSurah": "Select Surah",
+    "startAyah": "Start Ayah",
+    "endAyah": "End Ayah",
+    "duration": "Duration",
+    "durationDays": "days",
+    "generatePlan": "Generate Plan",
+    "generating": "Generating...",
+    "language": "Language"
+  },
+  "stats": {
+    "totalVerses": "Total Verses",
+    "versesPerDay": "Verses/Day",
+    "estimatedTime": "Est. Total Time",
+    "minutes": "min"
+  },
+  "plan": {
+    "title": "Your Memorization Plan",
+    "daily": "Daily Schedule",
+    "planHeader": "Memorization Plan",
+    "day": "Day",
+    "date": "Date",
+    "time": "Time",
+    "sabaq": "📖 Sabaq (New Lesson)",
+    "manzil": "🔄 Manzil (Revision)",
+    "verses": "Verses",
+    "revisions": "Revisions"
+  },
+  "errors": {
+    "endLessThanStart": "End Ayah cannot be less than Start Ayah",
+    "invalidDays": "Days must be between 1 and 365",
+    "failedToLoad": "Failed to load Surahs",
+    "failedToGenerate": "Failed to generate plan",
+    "missingFields": "Missing required fields"
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية"
+  }
+}
