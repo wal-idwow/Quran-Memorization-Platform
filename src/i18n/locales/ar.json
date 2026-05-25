@@ -30,7 +30,17 @@
     "sabaq": "📖 الدرس الجديد",
     "manzil": "🔄 المراجعة",
     "verses": "الآيات",
-    "revisions": "المراجعات"
+    "revisions": "المراجعات",
+    "titleFormat": "خطة التحفيظ - {surah}",
+    "titleVerses": "الآيات {start}-{end}",
+    "titleDays": "{days} أيام"
+  },
+  "revision": {
+    "first": "المراجعة الأولى",
+    "second": "المراجعة الثانية",
+    "third": "المراجعة الثالثة",
+    "deep": "ترسيخ عميق",
+    "maintenance": "مرحلة الصيانة"
   },
   "errors": {
     "endLessThanStart": "الآية الأخيرة لا يمكن أن تكون أقل من الآية الأولى",

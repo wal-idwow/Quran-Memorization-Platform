@@ -30,7 +30,17 @@
     "sabaq": "📖 Sabaq (New Lesson)",
     "manzil": "🔄 Manzil (Revision)",
     "verses": "Verses",
-    "revisions": "Revisions"
+    "revisions": "Revisions",
+    "titleFormat": "Memorization Plan - {surah}",
+    "titleVerses": "Verses {start}-{end}",
+    "titleDays": "{days} days"
+  },
+  "revision": {
+    "first": "First Review",
+    "second": "Second Review",
+    "third": "Third Review",
+    "deep": "Deep Consolidation",
+    "maintenance": "Maintenance Phase"
   },
   "errors": {
     "endLessThanStart": "End Ayah cannot be less than Start Ayah",

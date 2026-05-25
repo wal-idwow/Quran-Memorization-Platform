@@ -1,10 +1,48 @@
 # 🕌 Quran Memorization Platform
 
-**A comprehensive full-stack application for generating personalized Quranic memorization plans with spaced repetition, multilingual support, and real-time progress tracking.**
+**A comprehensive full-stack application for generating personalized Quranic memorization plans with spaced repetition, multilingual support, user authentication, and real-time progress tracking.**
 
-**Version**: 1.0.0  
-**Status**: ✅ Complete & Production Ready  
+**Version**: 2.0.0  
+**Status**: ✅ Phase 2 Complete - Backend & Database Ready  
 **Last Updated**: May 2026
+
+## 🚀 What's New in Phase 2
+
+✅ **Complete Backend System**
+- PostgreSQL database via Supabase
+- User authentication (email/password + OAuth-ready)
+- 15 REST API endpoints
+- Service layer for database operations
+- Input validation with Zod
+- Comprehensive error handling
+
+✅ **Database Integration**
+- users, plans, progress_logs tables
+- Row-Level Security policies
+- Proper relationships and constraints
+- Indexes for performance
+
+✅ **Authentication System**
+- Secure JWT-based authentication
+- Profile management
+- Protected routes with middleware
+- Token verification
+
+✅ **Progress Tracking**
+- Daily progress logging
+- Retention score tracking
+- Streak calculation
+- Statistics generation
+
+✅ **Documentation**
+- 4 comprehensive guides
+- Complete API reference with curl examples
+- Database schema and setup instructions
+- System architecture diagrams
+
+**Next Phase**: Frontend React components for authentication, plan management, and progress tracking UI.
+
+---
 
 ## ⭐ Key Features
 
@@ -58,7 +96,52 @@ npm test
 
 The application will be available at `http://localhost:3000`
 
-### API Usage
+---
+
+## 🔐 Phase 2: Backend & Database Setup
+
+### Prerequisites for Phase 2
+Before using the database and authentication features, you must:
+
+1. **Create Supabase Account**: https://supabase.com/sign-up
+2. **Get Credentials**: Project URL, Anon Key, Service Role Key
+3. **Run Database Schema**: SQL from DATABASE_SETUP.md
+4. **Configure Environment**: Create .env file with credentials
+
+### Quick Setup (5 minutes)
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Create .env file
+cp .env.example .env
+
+# 3. Add your Supabase credentials to .env
+# SUPABASE_URL=https://your-project.supabase.co
+# SUPABASE_ANON_KEY=your-key
+# SUPABASE_SERVICE_ROLE_KEY=your-key
+
+# 4. Run database schema (in Supabase SQL Editor)
+# Copy SQL from DATABASE_SETUP.md
+
+# 5. Start server
+npm run dev
+```
+
+### Documentation for Phase 2
+
+| Document | Purpose | Read Time |
+|----------|---------|-----------|
+| **PHASE2_QUICKSTART.md** | 5-minute setup guide | 5 min |
+| **DATABASE_SETUP.md** | Complete database setup with SQL schema | 10 min |
+| **API_DOCUMENTATION.md** | Full API reference with curl examples | 15 min |
+| **PHASE2_IMPLEMENTATION.md** | Implementation overview and architecture | 10 min |
+| **SYSTEM_ARCHITECTURE.md** | Complete system design and integration guide | 10 min |
+| **PHASE2_SUMMARY.md** | Summary of what was built | 5 min |
+
+👉 **Start here**: [PHASE2_QUICKSTART.md](./PHASE2_QUICKSTART.md)
+
 
 #### Generate a Memorization Plan
 
@@ -95,6 +178,73 @@ curl -X POST http://localhost:3000/api/generate-plan \
 curl http://localhost:3000/api/surahs
 ```
 
+### Phase 2 API Endpoints (with Authentication)
+
+#### Authentication
+```bash
+# Signup
+curl -X POST http://localhost:3000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"Pass123!","fullName":"User Name"}'
+
+# Login
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"Pass123!"}'
+
+# Get Profile (requires JWT token)
+curl http://localhost:3000/api/auth/profile \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### Plans (Requires Authentication)
+```bash
+# Create Plan
+curl -X POST http://localhost:3000/api/plans \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "surahNumber": 18,
+    "startVerse": 1,
+    "endVerse": 110,
+    "durationDays": 30,
+    "planName": "Al-Kahf Challenge"
+  }'
+
+# List Plans
+curl http://localhost:3000/api/plans \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+# Get Plan Details
+curl http://localhost:3000/api/plans/PLAN_ID \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### Progress (Requires Authentication)
+```bash
+# Log Progress
+curl -X POST http://localhost:3000/api/progress/log \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "planId": "PLAN_ID",
+    "day": 1,
+    "sabaqCompleted": true,
+    "sabaqRetentionScore": 85,
+    "sessionDuration": 20
+  }'
+
+# Get Progress History
+curl http://localhost:3000/api/progress/PLAN_ID \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+# Get Statistics
+curl http://localhost:3000/api/progress/PLAN_ID/stats \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+**Full API Reference**: See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+
 ## 🏗️ Project Architecture
 
 ### Technology Stack
@@ -116,43 +266,70 @@ Quran-Platform/
 ├── 📄 README.md                 # Main documentation (this file)
 ├── 📄 DOCUMENTATION.md          # Detailed technical documentation
 ├── 📄 PROJECT_STRUCTURE.md      # Project structure overview
+├── 📄 IMPLEMENTATION_SUMMARY.md # Phase 1 implementation details
+│
+├── 📄 PHASE2_QUICKSTART.md      # 5-minute setup guide (NEW)
+├── 📄 DATABASE_SETUP.md         # Database & SQL schema (NEW)
+├── 📄 API_DOCUMENTATION.md      # Complete API reference (NEW)
+├── 📄 PHASE2_IMPLEMENTATION.md  # Implementation overview (NEW)
+├── 📄 SYSTEM_ARCHITECTURE.md    # System design & integration (NEW)
+├── 📄 PHASE2_SUMMARY.md         # Phase 2 summary (NEW)
+├── 📄 .env.example              # Environment variables template (NEW)
 │
 ├── 📁 src/                      # Source code
 │   ├── index.ts                 # Example usage & CLI demo
 │   ├── index.tsx                # React app entry point
 │   ├── server.ts                # Express server with API routes
 │   │
-│   ├── types/
-│   │   └── memorization-plan.types.ts  # TypeScript interfaces & types
+│   ├── database/                # (NEW) Database layer
+│   │   └── supabase.ts          # Supabase client & config
 │   │
-│   ├── services/
-│   │   └── plan-generator.service.ts   # Core plan generation engine
+│   ├── middleware/              # (NEW) Express middleware
+│   │   ├── auth.middleware.ts   # JWT verification
+│   │   └── error.middleware.ts  # Error handling
+│   │
+│   ├── routes/                  # (NEW) API route handlers
+│   │   ├── auth.routes.ts       # /api/auth/* endpoints
+│   │   ├── plans.routes.ts      # /api/plans/* endpoints
+│   │   └── progress.routes.ts   # /api/progress/* endpoints
+│   │
+│   ├── services/                # (EXPANDED) Business logic
+│   │   ├── user.service.ts      # User operations (NEW)
+│   │   ├── plan.service.ts      # Plan CRUD operations (NEW)
+│   │   ├── progress.service.ts  # Progress & stats (NEW)
+│   │   └── plan-generator.service.ts # Core algorithm
+│   │
+│   ├── schemas/                 # (NEW) Validation
+│   │   └── validation.schema.ts # Zod validation schemas
+│   │
+│   ├── types/
+│   │   └── memorization-plan.types.ts # TypeScript interfaces
 │   │
 │   ├── config/
-│   │   └── spaced-repetition.config.ts # Algorithm configuration & defaults
+│   │   └── spaced-repetition.config.ts # Algorithm config
 │   │
 │   ├── data/
-│   │   ├── plan-generator.service.ts   # Duplicate (legacy)
-│   │   └── quran-reference.ts          # Quranic chapter database (114+ surahs)
+│   │   ├── plan-generator.service.ts
+│   │   └── quran-reference.ts   # Quranic database (114+ surahs)
 │   │
 │   ├── i18n/
-│   │   ├── config.ts                   # i18next initialization
+│   │   ├── config.ts            # i18next initialization
 │   │   └── locales/
-│   │       ├── en.json                 # English translations
-│   │       └── ar.json                 # Arabic translations
+│   │       ├── en.json          # English translations
+│   │       └── ar.json          # Arabic translations
 │   │
 │   └── components/
-│       ├── Lab.tsx                     # Main React Lab component
-│       └── Lab.css                     # Component styling
+│       ├── Lab.tsx              # Main React Lab component
+│       └── Lab.css              # Component styling
 │
 ├── 📁 public/                   # Static assets
 │   └── index.html               # React app HTML shell
 │
 ├── 📁 schemas/                  # JSON Schema validation
-│   └── memorization-plan.schema.json  # Plan structure schema
+│   └── memorization-plan.schema.json
 │
 ├── 📁 samples/                  # Sample data
-│   └── sample-plan-output.json  # Example generated plan
+│   └── sample-plan-output.json
 │
 └── 📁 dist/                     # Compiled JavaScript (generated)
     └── (compiled TypeScript files)

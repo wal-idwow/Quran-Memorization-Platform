@@ -84,17 +84,22 @@ function validateRevisionLogic(plan) {
   let verificationMap = new Map();
   for (const dailyTarget of plan.dailyTargets) {
     const key = `${dailyTarget.sabaq.startVerse}-${dailyTarget.sabaq.endVerse}`;
+
     if (verificationMap.has(key)) {
       const previousDay = verificationMap.get(key);
       // Should see this lesson again on day+1, day+3, day+7, day+14
       const expectedRevisionDays = [1, 3, 7, 14];
       let hasRevision = false;
+    
       for (const offset of expectedRevisionDays) {
         const revisionDay = previousDay + offset;
+    
         if (revisionDay <= plan.totalDays) {
           // Check if this lesson appears in manzil on that day
           const revisionTarget = plan.dailyTargets[revisionDay - 1];
+    
           for (const manzil of revisionTarget.manzil) {
+    
             if (manzil.startVerse === dailyTarget.sabaq.startVerse && 
                 manzil.endVerse === dailyTarget.sabaq.endVerse) {
               hasRevision = true;

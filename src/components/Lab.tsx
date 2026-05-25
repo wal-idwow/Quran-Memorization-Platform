@@ -9,6 +9,7 @@ import axios from 'axios';
 import '../i18n/config';
 
 interface SurahInfo {
+  name: string;
   number: number;
   arabicName: string;
   englishName: string;
@@ -93,12 +94,22 @@ export const Lab: React.FC = () => {
         throw new Error(t('errors.invalidDays'));
       }
 
+      // Generate readable plan name with translations
+      const currentSurah = surahs.find((s) => s.number === selectedSurah);
+      const surahName = i18n.language === 'ar' ? currentSurah?.arabicName : currentSurah?.englishName;
+      const versesText = t('plan.titleVerses')
+        .replace('{start}', startAyah.toString())
+        .replace('{end}', endAyah.toString());
+      const daysText = t('plan.titleDays').replace('{days}', days.toString());
+      const planName = `${t('plan.titleFormat').replace('{surah}', surahName || '')} - ${versesText} - ${daysText}`;
+
       const response = await axios.post('/api/generate-plan', {
         userId: `user_${Date.now()}`,
         surahNumber: selectedSurah,
         startVerse: startAyah,
         endVerse: endAyah,
         durationDays: days,
+        planName: planName,
       });
 
       setPlan(response.data.plan);
@@ -245,8 +256,31 @@ export const Lab: React.FC = () => {
                 onChange={(e) => setDays(parseInt(e.target.value))}
                 className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-cyan-400"
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-2">
+              <div className="flex items-center justify-between text-xs text-gray-400 mt-2 gap-4">
                 <span>1</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    min={1}
+                    max={365}
+                    value={days}
+                    onChange={(e) => setDays(Math.min(365, Math.max(1, parseInt(e.target.value) || 1)))}
+                    className="w-20 px-2 py-1 rounded bg-white/10 border border-white/20 text-white text-sm"
+                    aria-label="Exact days"
+                  />
+                  <div className="flex gap-1">
+                    {[1,5,10,30,60,90,180,365].map((p) => (
+                      <button
+                        key={p}
+                        onClick={() => setDays(p)}
+                        className="px-2 py-1 text-xs rounded bg-white/5 hover:bg-white/10 border border-white/10"
+                        aria-label={`Set ${p} days`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <span>365</span>
               </div>
             </div>
@@ -303,7 +337,9 @@ export const Lab: React.FC = () => {
                   backdropFilter: 'blur(10px)',
                 }}
               >
-                <h2 className="text-2xl font-bold text-white mb-2 text-center">{plan.planName}</h2>
+                <h2 className="text-2xl font-bold text-white mb-2 text-center">
+                  {t('plan.title')} - {plan.targetSurah.arabicName} ({plan.targetSurah.name})
+                </h2>
                 <div className="flex flex-wrap justify-center gap-4 mb-6 text-sm text-gray-300">
                   <span>📅 {plan.totalDays} {t('controls.durationDays')}</span>
                   <span>📖 {plan.totalVerses} {t('plan.verses')}</span>

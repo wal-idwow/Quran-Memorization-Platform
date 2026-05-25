@@ -387,7 +387,7 @@ export class PlanGeneratorService {
     return [
       {
         cycleNumber: 1,
-        name: 'First Review',
+        name: 'revision.first',
         daysAfterSabaq: 1,
         verseRange: {
           surah: surahNumber,
@@ -398,7 +398,7 @@ export class PlanGeneratorService {
       },
       {
         cycleNumber: 2,
-        name: 'Second Review',
+        name: 'revision.second',
         daysAfterSabaq: 3,
         verseRange: {
           surah: surahNumber,
@@ -409,7 +409,7 @@ export class PlanGeneratorService {
       },
       {
         cycleNumber: 3,
-        name: 'Third Review',
+        name: 'revision.third',
         daysAfterSabaq: 7,
         verseRange: {
           surah: surahNumber,
@@ -420,7 +420,7 @@ export class PlanGeneratorService {
       },
       {
         cycleNumber: 4,
-        name: 'Deep Consolidation',
+        name: 'revision.deep',
         daysAfterSabaq: 14,
         verseRange: {
           surah: surahNumber,
@@ -431,7 +431,7 @@ export class PlanGeneratorService {
       },
       {
         cycleNumber: 5,
-        name: 'Maintenance Phase',
+        name: 'revision.maintenance',
         daysAfterSabaq: 30,
         verseRange: {
           surah: surahNumber,

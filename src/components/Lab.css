@@ -126,3 +126,16 @@ input[type="range"]::-moz-range-thumb {
   @apply w-5 h-5 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 shadow-lg cursor-pointer border-none;
 }
 
+/* Ensure option dropdowns render with readable contrast across platforms */
+select option {
+  color: #fff !important;
+  background-color: rgba(15, 23, 42, 0.98) !important;
+}
+
+/* Provide a light-variant for platforms that force light backgrounds
+   (fallback: ensure text remains readable) */
+select.light-option-fallback option {
+  color: #111 !important;
+  background-color: #fff !important;
+}
+

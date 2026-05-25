@@ -7,471 +7,581 @@
     <title>🕋 Quran Memorization Lab</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS Variables */
+        /* ===== CSS Variables ===== */
         :root {
-            --primary-color: #06b6d4;
-            --accent-color: #10b981;
-            --danger-color: #dc2626;
-            --warning-color: #f59e0b;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-primary: #ffffff;
-            --text-secondary: #d1d5db;
-            --text-muted: #9ca3af;
+            --primary:   #06b6d4;
+            --accent:    #10b981;
+            --danger:    #ef4444;
+            --warning:   #f59e0b;
+            --purple:    #8b5cf6;
+            --glass-bg:  rgba(255,255,255,0.07);
+            --glass-border: rgba(255,255,255,0.18);
+            --text-primary:   #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted:     #94a3b8;
+            --bg-base:   #0f172a;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%,
-                rgba(6, 182, 212, 0.1) 25%,
-                rgba(15, 23, 42, 0.3) 50%,
-                rgba(6, 182, 212, 0.1) 75%,
-                rgba(16, 185, 129, 0.1) 100%),
-                radial-gradient(at 20% 50%, rgba(34, 197, 94, 0.15) 0px, transparent 50%),
-                radial-gradient(at 80% 80%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+            font-family:'Inter',sans-serif;
+            background:
+                linear-gradient(135deg,
+                    rgba(16,185,129,0.08) 0%,
+                    rgba(6,182,212,0.08) 25%,
+                    rgba(15,23,42,0.3) 50%,
+                    rgba(6,182,212,0.08) 75%,
+                    rgba(16,185,129,0.08) 100%),
+                radial-gradient(at 20% 50%,  rgba(34,197,94,0.12)  0px, transparent 50%),
+                radial-gradient(at 80% 80%,  rgba(6,182,212,0.12)  0px, transparent 50%),
+                radial-gradient(at 50% 0%,   rgba(139,92,246,0.08) 0px, transparent 50%),
                 linear-gradient(to bottom, #0f172a, #1a1a2e);
-            background-attachment: fixed;
-            color: var(--text-secondary);
-            min-height: 100vh;
+            background-attachment:fixed;
+            color:var(--text-secondary);
+            min-height:100vh;
         }
+        body.arabic { font-family:'Amiri',serif; }
 
-        body.arabic {
-            font-family: 'Amiri', serif;
-        }
-
-        /* Navbar */
+        /* ===== Navbar ===== */
         nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 2rem;
+            position:sticky; top:0; z-index:50;
+            background:rgba(15,23,42,0.8);
+            backdrop-filter:blur(16px);
+            border-bottom:1px solid var(--glass-border);
+            padding:0.875rem 2rem;
         }
-
         .navbar-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width:1340px; margin:0 auto;
+            display:flex; justify-content:space-between; align-items:center; gap:1rem;
+        }
+        .navbar-brand {
+            font-size:1.35rem; font-weight:800;
+            color:var(--text-primary);
+            display:flex; align-items:center; gap:0.5rem;
+            letter-spacing:-0.01em;
+        }
+        .navbar-brand span { 
+            background:linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .navbar-right { display:flex; align-items:center; gap:0.75rem; }
+
+        /* ===== Buttons ===== */
+        .btn {
+            padding:0.5rem 1.1rem;
+            border-radius:0.5rem;
+            font-weight:600; font-size:0.875rem;
+            cursor:pointer; transition:all 0.2s ease;
+            border:1px solid transparent;
+            display:inline-flex; align-items:center; gap:0.4rem;
+        }
+        .btn-ghost {
+            background:var(--glass-bg);
+            border-color:var(--glass-border);
+            color:var(--text-secondary);
+        }
+        .btn-ghost:hover {
+            background:rgba(255,255,255,0.14);
+            color:var(--text-primary);
+        }
+        .btn-primary {
+            background:linear-gradient(to right, var(--primary), var(--accent));
+            color:#0f172a; border:none;
+            box-shadow:0 4px 12px rgba(6,182,212,0.35);
+        }
+        .btn-primary:hover {
+            transform:translateY(-1px);
+            box-shadow:0 6px 18px rgba(6,182,212,0.45);
+        }
+        .btn-danger { background:var(--danger); color:#fff; border:none; }
+        .btn-danger:hover { background:#dc2626; }
+        .btn-full { width:100%; justify-content:center; padding:0.75rem; font-size:0.975rem; }
+        .btn:disabled { opacity:0.55; cursor:not-allowed; pointer-events:none; }
+
+        /* ===== User Chip ===== */
+        .user-chip {
+            display:none; align-items:center; gap:0.6rem;
+            background:var(--glass-bg); border:1px solid var(--glass-border);
+            border-radius:2rem; padding:0.35rem 0.9rem 0.35rem 0.6rem;
+        }
+        .user-avatar {
+            width:28px; height:28px; border-radius:50%;
+            background:linear-gradient(135deg,var(--primary),var(--accent));
+            display:flex; align-items:center; justify-content:center;
+            font-weight:700; font-size:0.75rem; color:#0f172a;
+        }
+        .user-name { font-weight:600; font-size:0.875rem; color:var(--text-primary); }
+
+        /* ===== Nav Tab Buttons ===== */
+        .nav-tab {
+            padding:0.4rem 0.9rem;
+            border-radius:0.5rem; font-size:0.85rem; font-weight:600;
+            cursor:pointer; transition:all 0.2s;
+            border:1px solid transparent; color:var(--text-muted);
+            background:transparent;
+        }
+        .nav-tab:hover { color:var(--text-primary); background:var(--glass-bg); }
+        .nav-tab.active {
+            color:var(--primary); border-color:var(--primary);
+            background:rgba(6,182,212,0.1);
         }
 
-        .navbar-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        /* ===== Modal ===== */
+        .modal-overlay {
+            position:fixed; inset:0;
+            background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
+            display:none; align-items:center; justify-content:center;
+            z-index:200;
+        }
+        .modal-overlay.open { display:flex; }
+        .modal-box {
+            background:linear-gradient(135deg, rgba(15,23,42,0.97), rgba(30,41,59,0.97));
+            border:1px solid var(--glass-border);
+            border-radius:1.25rem; padding:2rem;
+            width:min(420px, 94vw);
+            box-shadow:0 24px 64px rgba(0,0,0,0.4);
+            animation:modalIn 0.25s ease;
+        }
+        @keyframes modalIn { from{opacity:0;transform:scale(0.93)} to{opacity:1;transform:scale(1)} }
+        .modal-header {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:1.5rem;
+        }
+        .modal-header h2 { color:var(--text-primary); font-size:1.2rem; font-weight:700; }
+        .modal-close {
+            background:none; border:none; color:var(--text-muted);
+            font-size:1.4rem; cursor:pointer; line-height:1; transition:color 0.2s;
+        }
+        .modal-close:hover { color:var(--text-primary); }
+        .modal-tabs {
+            display:flex; gap:0.5rem; margin-bottom:1.5rem;
+            border-bottom:1px solid var(--glass-border); padding-bottom:1rem;
         }
 
-        .language-toggle {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .language-toggle:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 2rem;
-        }
-
-        @media (max-width: 1024px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Glass Panel */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 1.5rem;
-            padding: 2rem;
-        }
-
-        .glass-panel h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
+        /* ===== Form ===== */
+        .form-group { margin-bottom:1.25rem; }
         .form-group label {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            display:block; font-size:0.85rem; font-weight:500;
+            color:var(--text-secondary); margin-bottom:0.4rem;
+        }
+        .form-control {
+            width:100%; padding:0.7rem 0.9rem;
+            background:rgba(255,255,255,0.07);
+            border:1px solid var(--glass-border);
+            border-radius:0.5rem;
+            color:var(--text-primary); font-family:inherit; font-size:0.9rem;
+            transition:all 0.2s;
+        }
+        .form-control:focus {
+            outline:none;
+            border-color:var(--primary);
+            background:rgba(6,182,212,0.06);
+            box-shadow:0 0 0 3px rgba(6,182,212,0.18);
+        }
+        .form-control::placeholder { color:var(--text-muted); }
+        .form-error {
+            color:#fca5a5; font-size:0.82rem; margin-top:0.4rem;
+            display:none; padding:0.5rem 0.75rem;
+            background:rgba(239,68,68,0.1); border-radius:0.4rem;
+            border:1px solid rgba(239,68,68,0.25);
+        }
+        .form-success {
+            color:#6ee7b7; font-size:0.82rem; margin-top:0.4rem;
+            display:none; padding:0.5rem 0.75rem;
+            background:rgba(16,185,129,0.1); border-radius:0.4rem;
+            border:1px solid rgba(16,185,129,0.25);
+        }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+        /* ===== Main Layout ===== */
+        .container { max-width:1340px; margin:0 auto; padding:2rem 1.25rem; }
+
+        /* ===== Glass Panel ===== */
+        .glass-panel {
+            background:var(--glass-bg);
+            backdrop-filter:blur(12px);
+            border:1px solid var(--glass-border);
+            border-radius:1.25rem; padding:1.75rem;
+        }
+        .glass-panel h2 {
+            font-size:1.1rem; font-weight:700;
+            color:var(--text-primary); margin-bottom:1.25rem;
+            display:flex; align-items:center; gap:0.5rem;
+        }
+        .glass-panel h3 {
+            font-size:0.95rem; font-weight:600;
+            color:var(--text-secondary); margin-bottom:0.75rem;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+        /* ===== Planner Grid ===== */
+        .planner-grid {
+            display:grid;
+            grid-template-columns:1fr 1.6fr;
+            gap:1.75rem;
         }
+        @media(max-width:1024px){ .planner-grid{ grid-template-columns:1fr; } }
+        @media(min-width:1025px){ .control-sticky{ position:sticky; top:76px; height:fit-content; } }
 
-        input[type="number"],
-        input[type="range"],
-        select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            border-radius: 0.5rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: all 0.3s ease;
+        /* ===== Form Controls (planner) ===== */
+        select, input[type="number"], input[type="range"] {
+            width:100%; padding:0.7rem 0.9rem;
+            background:rgba(255,255,255,0.07);
+            border:1px solid var(--glass-border);
+            border-radius:0.5rem;
+            color:var(--text-primary); font-family:inherit;
+            transition:all 0.2s;
         }
+        select:focus, input[type="number"]:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(6,182,212,0.18); }
+        input[type="range"] { accent-color:var(--primary); padding:0; height:0.375rem; }
+        select option { color:#fff !important; background-color:rgba(15,23,42,0.98) !important; }
+        select option:checked { background-color:#06b6d4 !important; }
 
-        input[type="number"]:hover,
-        input[type="range"]:hover,
-        select:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+        .stats-mini {
+            background:rgba(6,182,212,0.08);
+            border:1px solid rgba(6,182,212,0.2);
+            border-radius:0.75rem; padding:1.25rem; margin:1.25rem 0;
         }
+        .stat-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; }
+        .stat-row:last-child { margin-bottom:0; }
+        .stat-lbl { color:var(--text-secondary); font-size:0.88rem; font-weight:500; }
+        .stat-val { color:var(--primary); font-weight:700; font-size:1.05rem; }
 
-        input[type="number"]:focus,
-        input[type="range"]:focus,
-        select:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        .duration-row { display:flex; gap:0.6rem; align-items:center; margin-top:0.5rem; flex-wrap:wrap; }
+        .days-input { width:72px; padding:0.45rem 0.6rem; }
+        .preset-wrap { display:flex; gap:0.35rem; flex-wrap:wrap; }
+        .preset-btn {
+            padding:0.35rem 0.65rem;
+            background:rgba(255,255,255,0.05);
+            border:1px solid var(--glass-border);
+            border-radius:0.35rem; color:var(--text-muted);
+            font-size:0.78rem; cursor:pointer; transition:all 0.2s;
         }
+        .preset-btn:hover { border-color:var(--primary); color:var(--primary); background:rgba(6,182,212,0.08); }
+        .preset-btn.active { background:var(--primary); color:#0f172a; border-color:var(--primary); font-weight:700; }
+        .slider-labels { display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem; }
 
-        input[type="range"] {
-            accent-color: var(--primary-color);
-            height: 0.375rem;
-        }
-
-        /* Duration Value */
-        .duration-value {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        /* Stats Card */
-        .stats-card {
-            background: rgba(6, 182, 212, 0.1);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid var(--glass-border);
-            space: 0.75rem;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .stat-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-
-        /* Generate Button */
-        .btn-generate {
-            width: 100%;
-            padding: 0.75rem 1.5rem;
-            margin-top: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-        }
-
-        .btn-generate:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(6, 182, 212, 0.4);
-        }
-
-        .btn-generate:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .btn-generate:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Error Message */
-        .error-message {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 0.5rem;
-            color: #fca5a5;
-            font-weight: 500;
-        }
-
-        /* Plan Display */
-        .plan-display {
-            min-height: 400px;
-        }
-
+        /* ===== Plan Display ===== */
         .plan-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-            padding: 2rem;
-            text-align: center;
+            display:flex; flex-direction:column; align-items:center;
+            justify-content:center; min-height:380px; text-align:center;
+            color:var(--text-muted); gap:0.75rem;
         }
-
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .plan-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .plan-header h2 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-        }
-
-        .plan-meta {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .daily-targets-list h3 {
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            color: var(--text-primary);
-        }
-
+        .plan-empty .icon { font-size:3.5rem; }
         .targets-scroll {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 0.5rem;
+            display:flex; flex-direction:column; gap:0.875rem;
+            max-height:560px; overflow-y:auto; padding-right:0.25rem;
+        }
+        .targets-scroll::-webkit-scrollbar { width:6px; }
+        .targets-scroll::-webkit-scrollbar-track { background:rgba(255,255,255,0.04); border-radius:10px; }
+        .targets-scroll::-webkit-scrollbar-thumb { background:rgba(6,182,212,0.4); border-radius:10px; }
+        .plan-header-info { text-align:center; margin-bottom:1.5rem; padding-bottom:1.25rem; border-bottom:1px solid var(--glass-border); }
+        .plan-header-info h2 { font-size:1.25rem; color:var(--primary); margin-bottom:0.6rem; }
+        .plan-meta { display:flex; gap:1.5rem; justify-content:center; color:var(--text-muted); font-size:0.88rem; flex-wrap:wrap; }
+        .daily-card {
+            padding:1rem; border-left:4px solid;
+            border-radius:0.6rem; background:rgba(255,255,255,0.04);
+            transition:all 0.2s;
+        }
+        .daily-card:hover { background:rgba(255,255,255,0.08); transform:translateX(3px); }
+        .daily-card.high { border-left-color:#ef4444; }
+        .daily-card.medium { border-left-color:#f59e0b; }
+        .daily-card.low { border-left-color:#10b981; }
+        .card-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem; }
+        .day-num { font-weight:700; color:var(--text-primary); }
+        .day-date { color:var(--text-muted); font-size:0.8rem; }
+        .time-badge { background:rgba(6,182,212,0.25); color:var(--primary); padding:0.2rem 0.6rem; border-radius:20px; font-size:0.75rem; font-weight:600; }
+        .card-body { font-size:0.875rem; }
+        .section-lbl { font-weight:600; color:var(--text-primary); margin-right:0.35rem; }
+        .rev-chip { background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); padding:0.15rem 0.45rem; border-radius:0.25rem; font-size:0.75rem; color:var(--text-muted); }
+
+        /* ===== Dashboard ===== */
+        .dash-stats {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+            gap:1.25rem; margin-bottom:1.75rem;
+        }
+        .stat-card {
+            background:var(--glass-bg); border:1px solid var(--glass-border);
+            border-radius:1rem; padding:1.5rem 1.25rem;
+            text-align:center; transition:all 0.2s;
+        }
+        .stat-card:hover { border-color:rgba(255,255,255,0.28); transform:translateY(-2px); }
+        .stat-card .big-num {
+            font-size:2.4rem; font-weight:800; line-height:1;
+            margin-bottom:0.35rem;
+        }
+        .stat-card .lbl { font-size:0.8rem; color:var(--text-muted); font-weight:500; }
+        .stat-card .icon-top { font-size:1.6rem; margin-bottom:0.5rem; }
+        .streak-num { color:var(--warning); }
+        .complete-num { color:var(--accent); }
+        .plans-num { color:var(--primary); }
+        .days-num { color:var(--purple); }
+
+        /* Progress bar */
+        .progress-wrap { background:rgba(255,255,255,0.08); border-radius:99px; height:8px; margin-top:0.5rem; overflow:hidden; }
+        .progress-bar { height:100%; border-radius:99px; background:linear-gradient(to right,var(--primary),var(--accent)); transition:width 0.6s ease; }
+
+        /* ===== Today's Lesson ===== */
+        .lesson-card {
+            border-radius:0.875rem; padding:1.25rem; margin-bottom:1rem;
+        }
+        .lesson-card.sabaq { background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.25); }
+        .lesson-card.manzil { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); }
+        .lesson-card h3 { color:var(--primary); margin-bottom:0.5rem; font-size:1rem; }
+        .lesson-card.manzil h3 { color:var(--accent); }
+        .lesson-card p { color:var(--text-secondary); font-size:0.9rem; margin-bottom:0.25rem; }
+        .lesson-card .sub { color:var(--text-muted); font-size:0.8rem; }
+
+        .done-btn {
+            width:100%; padding:0.875rem;
+            background:linear-gradient(to right, #10b981, #06b6d4);
+            border:none; border-radius:0.75rem;
+            color:#0f172a; font-weight:700; font-size:1rem;
+            cursor:pointer; transition:all 0.25s;
+            box-shadow:0 4px 16px rgba(16,185,129,0.35);
+            margin-top:1rem;
+        }
+        .done-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(16,185,129,0.45); }
+        .done-btn:active { transform:translateY(0); }
+        .done-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+        /* ===== Saved Plans ===== */
+        .plan-item {
+            background:rgba(6,182,212,0.07); border:1px solid rgba(6,182,212,0.2);
+            border-radius:0.875rem; padding:1.1rem 1.25rem;
+            display:flex; justify-content:space-between; align-items:center;
+            gap:1rem; margin-bottom:0.875rem; transition:all 0.2s;
+        }
+        .plan-item:hover { border-color:var(--primary); background:rgba(6,182,212,0.13); }
+        .plan-item .plan-info { flex:1; }
+        .plan-item .plan-name { font-weight:700; color:var(--text-primary); margin-bottom:0.2rem; }
+        .plan-item .plan-meta-small { color:var(--text-muted); font-size:0.8rem; }
+        .plan-item.active-plan { border-color:var(--accent); background:rgba(16,185,129,0.1); }
+        .active-badge {
+            background:var(--accent); color:#0f172a;
+            font-size:0.7rem; font-weight:700;
+            padding:0.15rem 0.5rem; border-radius:99px;
         }
 
-        /* Custom Scrollbar */
-        .targets-scroll::-webkit-scrollbar {
-            width: 8px;
+        /* ===== Toast ===== */
+        #toast {
+            position:fixed; bottom:1.5rem; right:1.5rem;
+            background:rgba(15,23,42,0.95); border:1px solid var(--glass-border);
+            color:var(--text-primary); padding:0.875rem 1.25rem;
+            border-radius:0.875rem; font-size:0.9rem; font-weight:500;
+            z-index:999; backdrop-filter:blur(12px);
+            box-shadow:0 8px 32px rgba(0,0,0,0.4);
+            transform:translateY(120%); transition:transform 0.3s ease;
+            max-width:340px;
         }
+        #toast.show { transform:translateY(0); }
+        #toast.success { border-color:rgba(16,185,129,0.5); }
+        #toast.error { border-color:rgba(239,68,68,0.5); }
 
-        .targets-scroll::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
+        /* ===== Retention Slider ===== */
+        .retention-group { margin:0.75rem 0; }
+        .retention-group label { font-size:0.82rem; color:var(--text-muted); display:flex; justify-content:space-between; }
+        .retention-group label span { color:var(--primary); font-weight:700; }
+        .retention-slider { accent-color:var(--primary); }
 
-        .targets-scroll::-webkit-scrollbar-thumb {
-            background: rgba(6, 182, 212, 0.4);
-            border-radius: 10px;
+        /* ===== Spinner ===== */
+        .spinner {
+            width:18px; height:18px; border:2px solid rgba(255,255,255,0.3);
+            border-top-color:#fff; border-radius:50%;
+            animation:spin 0.7s linear infinite; display:inline-block;
         }
-
-        .targets-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(6, 182, 212, 0.6);
-        }
-
-        /* Daily Target Card */
-        .daily-target {
-            padding: 1rem;
-            border-left: 4px solid;
-            border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.2s ease;
-        }
-
-        .daily-target:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transform: translateX(4px);
-        }
-
-        .daily-target.priority-high {
-            border-left-color: var(--danger-color);
-        }
-
-        .daily-target.priority-medium {
-            border-left-color: var(--warning-color);
-        }
-
-        .daily-target.priority-low {
-            border-left-color: var(--accent-color);
-        }
-
-        .target-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .day-number {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-        }
-
-        .target-date {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .time-estimate {
-            background: rgba(6, 182, 212, 0.3);
-            color: var(--primary-color);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .target-content {
-            font-size: 0.9rem;
-        }
-
-        .sabaq,
-        .manzil {
-            margin-bottom: 0.5rem;
-        }
-
-        .target-label {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-right: 0.5rem;
-        }
-
-        .verses-text {
-            color: var(--text-secondary);
-        }
-
-        .revision-cycles {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.25rem;
-        }
-
-        .revision {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Sticky Control Panel */
-        @media (min-width: 1025px) {
-            .control-panel {
-                position: sticky;
-                top: 80px;
-                height: fit-content;
-            }
-        }
+        @keyframes spin { to { transform:rotate(360deg); } }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav>
-        <div class="navbar-content">
-            <h1 class="navbar-title">🕋 <span id="navTitle">Quran Memorization Lab</span></h1>
-            <button class="language-toggle" onclick="toggleLanguage()" id="langToggle">EN / ع</button>
-        </div>
-    </nav>
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="grid-layout">
+<!-- ===== NAVBAR ===== -->
+<nav>
+    <div class="navbar-content">
+        <div class="navbar-brand">🕋 <span>Quran</span> Memorization Lab</div>
+
+        <div class="navbar-right">
+            <!-- Nav tabs (shown when logged in) -->
+            <div id="navTabs" style="display:none; gap:0.4rem; display:none;">
+                <button class="nav-tab active" onclick="switchView('dashboard')" id="tabDash">📊 Dashboard</button>
+                <button class="nav-tab" onclick="switchView('planner')" id="tabPlan">✨ New Plan</button>
+            </div>
+
+            <button class="btn btn-ghost" onclick="toggleLanguage()" id="langBtn">AR / ع</button>
+
+            <!-- Auth buttons -->
+            <div id="authBtns" style="display:flex; gap:0.5rem;">
+                <button class="btn btn-ghost" onclick="openModal('loginModal')">Login</button>
+                <button class="btn btn-primary" onclick="openModal('signupModal')">Sign Up</button>
+            </div>
+
+            <!-- User chip -->
+            <div class="user-chip" id="userChip">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <span class="user-name" id="userNameDisplay">User</span>
+                <button class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>👋 Welcome back</h2>
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+        </div>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="loginEmail">Email address</label>
+                <input class="form-control" type="email" id="loginEmail" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input class="form-control" type="password" id="loginPassword" placeholder="••••••••" required />
+            </div>
+            <div class="form-error" id="loginError"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Login</button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.82rem; color:var(--text-muted);">
+                No account? <a href="#" onclick="switchModal('loginModal','signupModal')" style="color:var(--primary);">Sign up</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<!-- ===== SIGNUP MODAL ===== -->
+<div id="signupModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>🌙 Create Account</h2>
+            <button class="modal-close" onclick="closeModal('signupModal')">&times;</button>
+        </div>
+        <form onsubmit="handleSignup(event)">
+            <div class="form-group">
+                <label for="signupName">Full name</label>
+                <input class="form-control" type="text" id="signupName" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email address</label>
+                <input class="form-control" type="email" id="signupEmail" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password <span style="color:var(--text-muted);font-size:0.78rem;">(min 8 characters)</span></label>
+                <input class="form-control" type="password" id="signupPassword" minlength="8" placeholder="••••••••" required />
+            </div>
+            <div class="form-error" id="signupError"></div>
+            <div class="form-success" id="signupSuccess"></div>
+            <button type="submit" class="btn btn-primary btn-full" id="signupBtn">Create Account</button>
+            <p style="text-align:center; margin-top:1rem; font-size:0.82rem; color:var(--text-muted);">
+                Already have an account? <a href="#" onclick="switchModal('signupModal','loginModal')" style="color:var(--primary);">Login</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<!-- ===== PROGRESS LOG MODAL ===== -->
+<div id="progressModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>✅ Mark Day Complete</h2>
+            <button class="modal-close" onclick="closeModal('progressModal')">&times;</button>
+        </div>
+        <p style="color:var(--text-muted); margin-bottom:1.25rem; font-size:0.875rem;">How well did you retain today's lesson?</p>
+        <div class="retention-group">
+            <label>Retention score <span id="retentionDisplay">80</span>%</label>
+            <input type="range" class="retention-slider form-control" id="retentionSlider"
+                min="0" max="100" value="80" style="padding:0; height:0.375rem; margin-top:0.5rem;"
+                oninput="document.getElementById('retentionDisplay').textContent=this.value" />
+        </div>
+        <div class="form-group" style="margin-top:1rem;">
+            <label for="sessionMins">Session duration (minutes)</label>
+            <input class="form-control" type="number" id="sessionMins" value="20" min="1" max="180" />
+        </div>
+        <div class="form-group">
+            <label for="progressNotes">Notes (optional)</label>
+            <input class="form-control" type="text" id="progressNotes" placeholder="Any challenges today?" />
+        </div>
+        <div class="form-error" id="progressError"></div>
+        <button class="done-btn" id="confirmDoneBtn" onclick="confirmMarkDone()">🎉 Submit &amp; Continue</button>
+    </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<!-- ===== MAIN CONTAINER ===== -->
+<div class="container">
+
+    <!-- ====== DASHBOARD VIEW ====== -->
+    <div id="dashboardView" style="display:none;">
+        <!-- Stats Row -->
+        <div class="dash-stats">
+            <div class="stat-card">
+                <div class="icon-top">🔥</div>
+                <div class="big-num streak-num" id="streakNum">0</div>
+                <div class="lbl">Day streak</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-top">📊</div>
+                <div class="big-num complete-num" id="completePct">0%</div>
+                <div class="lbl">Completed</div>
+                <div class="progress-wrap" style="margin-top:0.6rem;">
+                    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-top">📝</div>
+                <div class="big-num plans-num" id="plansNum">0</div>
+                <div class="lbl">Saved plans</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-top">⏱️</div>
+                <div class="big-num days-num" id="daysStudied">0</div>
+                <div class="lbl">Days studied</div>
+            </div>
+        </div>
+
+        <!-- Two-column lower section -->
+        <div style="display:grid; grid-template-columns:1fr 1.4fr; gap:1.5rem;">
+
+            <!-- Today's Lesson -->
+            <div class="glass-panel">
+                <h2>📖 Today's Lesson</h2>
+                <div id="todayContent">
+                    <p style="color:var(--text-muted);">Loading…</p>
+                </div>
+            </div>
+
+            <!-- Saved Plans -->
+            <div class="glass-panel">
+                <h2>💾 Your Plans</h2>
+                <button class="btn btn-primary" onclick="switchView('planner')" style="margin-bottom:1.25rem;">+ Create New Plan</button>
+                <div id="savedPlansList">
+                    <p style="color:var(--text-muted);">No saved plans yet.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ====== PLANNER VIEW ====== -->
+    <div id="plannerView">
+        <div class="planner-grid">
+
             <!-- Control Panel -->
-            <div class="glass-panel control-panel">
+            <div class="glass-panel control-sticky">
                 <h2>⚙️ <span id="controlTitle">Plan Configuration</span></h2>
 
-                <!-- Surah Select -->
                 <div class="form-group">
                     <label for="surahSelect" id="surahLabel">📖 Select Surah</label>
-                    <select id="surahSelect" onchange="updateAyahLimits()">
-                        <!-- Populated by JavaScript -->
-                    </select>
+                    <select id="surahSelect" onchange="updateAyahLimits()"></select>
                 </div>
 
-                <!-- Ayah Range -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="startAyah" id="startAyahLabel">📍 Start Ayah</label>
@@ -483,306 +593,740 @@
                     </div>
                 </div>
 
-                <!-- Duration Slider -->
                 <div class="form-group">
                     <label for="daysSlider" id="durationLabel">
-                        ⏱️ Duration: <span class="duration-value" id="daysValue">30</span> <span id="daysText">days</span>
+                        ⏱️ Duration: <span style="color:var(--primary); font-weight:700;" id="daysValue">30</span> <span id="daysText">days</span>
                     </label>
-                    <input type="range" id="daysSlider" min="1" max="365" value="30" onchange="updateStats()" />
-                    <div class="slider-labels">
-                        <span>1</span>
-                        <span>365</span>
+                    <input type="range" id="daysSlider" min="1" max="365" value="30" oninput="updateStats()" />
+                    <div class="slider-labels"><span>1</span><span>365</span></div>
+                    <div class="duration-row">
+                        <input type="number" class="form-control days-input" id="daysInput" min="1" max="365" value="30" onchange="setDaysFromInput()" />
+                        <div class="preset-wrap">
+                            <button type="button" class="preset-btn" onclick="setDays(7)">7</button>
+                            <button type="button" class="preset-btn" onclick="setDays(14)">14</button>
+                            <button type="button" class="preset-btn active" onclick="setDays(30)">30</button>
+                            <button type="button" class="preset-btn" onclick="setDays(60)">60</button>
+                            <button type="button" class="preset-btn" onclick="setDays(90)">90</button>
+                            <button type="button" class="preset-btn" onclick="setDays(180)">180</button>
+                            <button type="button" class="preset-btn" onclick="setDays(365)">365</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Statistics -->
-                <div class="stats-card">
-                    <div class="stat-item">
-                        <span class="stat-label" id="totalVersesLabel">Total Verses:</span>
-                        <span class="stat-value" id="totalVersesValue">109</span>
+                <div class="stats-mini">
+                    <div class="stat-row">
+                        <span class="stat-lbl" id="totalVersesLabel">Total Verses</span>
+                        <span class="stat-val" id="totalVersesValue">109</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label" id="versesPerDayLabel">Verses/Day:</span>
-                        <span class="stat-value" id="versesPerDayValue">3.63</span>
+                    <div class="stat-row">
+                        <span class="stat-lbl" id="versesPerDayLabel">Verses / Day</span>
+                        <span class="stat-val" id="versesPerDayValue">3.6</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label" id="estimatedTimeLabel">Est. Total Time:</span>
-                        <span class="stat-value" id="estimatedTimeValue">82 <span id="minutesText">min</span></span>
+                    <div class="stat-row">
+                        <span class="stat-lbl" id="estimatedTimeLabel">Est. Daily Time</span>
+                        <span class="stat-val" id="estimatedTimeValue">8 min</span>
                     </div>
                 </div>
 
-                <!-- Generate Button -->
-                <button class="btn-generate" onclick="generatePlan()" id="generateBtn">✨ Generate Plan</button>
-
-                <!-- Error Message -->
-                <div id="errorMessage" style="display: none;"></div>
+                <button class="btn btn-primary btn-full" onclick="generatePlan()" id="generateBtn">✨ Generate Plan</button>
+                <div class="form-error" id="planError" style="margin-top:0.75rem;"></div>
             </div>
 
             <!-- Plan Display -->
-            <div class="glass-panel plan-display">
+            <div class="glass-panel" id="planDisplayPanel">
                 <div id="planContent" class="plan-empty">
-                    <div class="empty-icon">🕋</div>
+                    <div class="icon">🕋</div>
                     <p id="emptyText">Configure your plan and click "Generate Plan" to get started!</p>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <script>
-        // Translations
-        const translations = {
-            en: {
-                navTitle: "Quran Memorization Lab",
-                controlTitle: "Plan Configuration",
-                surahLabel: "📖 Select Surah",
-                startAyahLabel: "📍 Start Ayah",
-                endAyahLabel: "📍 End Ayah",
-                durationLabel: "⏱️ Duration:",
-                daysText: "days",
-                totalVersesLabel: "Total Verses:",
-                versesPerDayLabel: "Verses/Day:",
-                estimatedTimeLabel: "Est. Total Time:",
-                minutesText: "min",
-                generateBtn: "✨ Generate Plan",
-                generating: "⏳ Generating...",
-                emptyText: "Configure your plan and click \"Generate Plan\" to get started!",
-                planHeaderTitle: "Memorization Plan",
-                dailyScheduleTitle: "📋 Daily Schedule",
-                dayLabel: "Day",
-                sabaqLabel: "📖 Sabaq (New):",
-                manzilLabel: "🔄 Manzil (Revisions):",
-                versesLabel: "Verses",
-                errorEndLessThanStart: "End Ayah cannot be less than Start Ayah",
-                errorInvalidDays: "Days must be between 1 and 365",
-                errorFailedToGenerate: "Failed to generate plan",
-            },
-            ar: {
-                navTitle: "معمل تحفيظ القرآن الكريم",
-                controlTitle: "إعدادات الخطة",
-                surahLabel: "📖 اختر السورة",
-                startAyahLabel: "📍 الآية الأولى",
-                endAyahLabel: "📍 الآية الأخيرة",
-                durationLabel: "⏱️ المدة:",
-                daysText: "أيام",
-                totalVersesLabel: "إجمالي الآيات:",
-                versesPerDayLabel: "الآيات/اليوم:",
-                estimatedTimeLabel: "الوقت المتوقع:",
-                minutesText: "دقيقة",
-                generateBtn: "✨ إنشاء الخطة",
-                generating: "⏳ جاري الإنشاء...",
-                emptyText: "قم بتكوين خطتك وانقر على \"إنشاء الخطة\" للبدء!",
-                planHeaderTitle: "خطة التحفيظ",
-                dailyScheduleTitle: "📋 الجدول اليومي",
-                dayLabel: "اليوم",
-                sabaqLabel: "📖 الصبح (الجديد):",
-                manzilLabel: "🔄 المنزل (المراجعات):",
-                versesLabel: "الآيات",
-                errorEndLessThanStart: "لا يمكن أن تكون الآية الأخيرة أقل من الآية الأولى",
-                errorInvalidDays: "يجب أن تكون الأيام بين 1 و 365",
-                errorFailedToGenerate: "فشل إنشاء الخطة",
-            }
-        };
+</div>
 
-        let currentLanguage = 'en';
-        let surahs = [];
+<script>
+// =====================================================
+//  STATE
+// =====================================================
+let currentLanguage = 'en';
+let surahs = [];
+let lastGeneratedPlan = null;   // in-memory plan from /api/generate-plan
+let _pendingDoneData = null;    // data waiting for progress modal confirm
 
-        // Initialize
-        async function init() {
-            try {
-                const response = await fetch('/api/surahs');
-                const data = await response.json();
-                surahs = data.surahs;
-                populateSurahs();
-                updateStats();
-            } catch (error) {
-                console.error('Error fetching Surahs:', error);
-            }
-        }
+const T = {
+    en: {
+        controlTitle:'Plan Configuration',
+        surahLabel:'📖 Select Surah',
+        startAyahLabel:'📍 Start Ayah',
+        endAyahLabel:'📍 End Ayah',
+        daysText:'days',
+        totalVersesLabel:'Total Verses',
+        versesPerDayLabel:'Verses / Day',
+        estimatedTimeLabel:'Est. Daily Time',
+        generateBtn:'✨ Generate Plan',
+        generating:'⏳ Generating…',
+        emptyText:'Configure your plan and click "Generate Plan" to get started!',
+        errEndLtStart:'End Ayah cannot be less than Start Ayah',
+        errBadDays:'Days must be between 1 and 365',
+        sabaqLabel:'📖 Sabaq (New):',
+        manzilLabel:'🔄 Manzil (Review):',
+        versesLabel:'Verses',
+        dayLabel:'Day',
+        dailySchedule:'📋 Daily Schedule',
+    },
+    ar: {
+        controlTitle:'إعدادات الخطة',
+        surahLabel:'📖 اختر السورة',
+        startAyahLabel:'📍 الآية الأولى',
+        endAyahLabel:'📍 الآية الأخيرة',
+        daysText:'أيام',
+        totalVersesLabel:'إجمالي الآيات',
+        versesPerDayLabel:'آيات / يوم',
+        estimatedTimeLabel:'الوقت اليومي المتوقع',
+        generateBtn:'✨ إنشاء الخطة',
+        generating:'⏳ جاري الإنشاء…',
+        emptyText:'قم بتكوين خطتك وانقر على "إنشاء الخطة" للبدء!',
+        errEndLtStart:'لا يمكن أن تكون الآية الأخيرة أقل من الآية الأولى',
+        errBadDays:'يجب أن تكون الأيام بين 1 و 365',
+        sabaqLabel:'📖 الصبح (الجديد):',
+        manzilLabel:'🔄 المنزل (المراجعات):',
+        versesLabel:'الآيات',
+        dayLabel:'اليوم',
+        dailySchedule:'📋 الجدول اليومي',
+    }
+};
+const t = () => T[currentLanguage];
 
-        function populateSurahs() {
-            const select = document.getElementById('surahSelect');
-            select.innerHTML = surahs.map(s => 
-                `<option value="${s.number}">${s.number}. ${s.englishName} (${s.arabicName}) - ${s.totalVerses} verses</option>`
-            ).join('');
-        }
+// =====================================================
+//  INIT
+// =====================================================
+window.addEventListener('load', async () => {
+    await loadSurahs();
+    restoreAuthUI();
+    const token = getToken();
+    if (token) {
+        switchView('dashboard');
+    }
+});
 
-        function updateAyahLimits() {
-            const surahNum = parseInt(document.getElementById('surahSelect').value);
-            const surah = surahs.find(s => s.number === surahNum);
-            if (surah) {
-                document.getElementById('startAyah').max = surah.totalVerses;
-                document.getElementById('endAyah').max = surah.totalVerses;
-                document.getElementById('startAyah').value = 1;
-                document.getElementById('endAyah').value = surah.totalVerses;
-                updateStats();
-            }
-        }
+async function loadSurahs() {
+    try {
+        const res = await fetch('/api/surahs');
+        const data = await res.json();
+        surahs = data.surahs || [];
+        populateSurahs();
+        updateStats();
+        updatePresets();
+    } catch(e) { console.error('Surah load error', e); }
+}
 
-        function updateStats() {
-            const daysSlider = document.getElementById('daysSlider');
-            const daysValue = document.getElementById('daysValue');
-            daysValue.textContent = daysSlider.value;
+function populateSurahs() {
+    const sel = $('surahSelect');
+    sel.innerHTML = surahs.map(s =>
+        `<option value="${s.number}">${s.number}. ${s.englishName} (${s.arabicName}) — ${s.totalVerses} verses</option>`
+    ).join('');
+}
 
-            const startAyah = parseInt(document.getElementById('startAyah').value) || 1;
-            const endAyah = parseInt(document.getElementById('endAyah').value) || 1;
-            const days = parseInt(daysSlider.value) || 1;
+// =====================================================
+//  HELPERS
+// =====================================================
+const $ = id => document.getElementById(id);
 
-            const totalVerses = Math.max(0, endAyah - startAyah + 1);
-            const versesPerDay = (totalVerses / days).toFixed(1);
-            const totalTime = Math.round((totalVerses * 1.5 * days) / 60);
+function toast(msg, type='success', dur=3500) {
+    const el = $('toast');
+    el.textContent = (type==='success'?'✅ ':'❌ ') + msg;
+    el.className = 'show ' + type;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.className = ''; }, dur);
+}
 
-            document.getElementById('totalVersesValue').textContent = totalVerses;
-            document.getElementById('versesPerDayValue').textContent = versesPerDay;
-            document.getElementById('estimatedTimeValue').innerHTML = totalTime + ' <span id="minutesText">' + (translations[currentLanguage].minutesText) + '</span>';
-        }
+function getToken()  { return localStorage.getItem('qt_token'); }
+function getUser()   { return JSON.parse(localStorage.getItem('qt_user') || 'null'); }
+function getPlanId() { return localStorage.getItem('qt_planId'); }
+function getPlanData()  { return JSON.parse(localStorage.getItem('qt_planData') || 'null'); }
+function getCompletedDays() { return JSON.parse(localStorage.getItem('qt_done_' + getPlanId()) || '[]'); }
 
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-            document.documentElement.lang = currentLanguage;
-            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
-            document.body.classList.toggle('arabic');
+function authHeaders() {
+    return { 'Content-Type':'application/json', 'Authorization':'Bearer '+getToken() };
+}
 
-            // Update font
-            if (currentLanguage === 'ar') {
-                document.body.style.fontFamily = "'Amiri', serif";
-            } else {
-                document.body.style.fontFamily = "'Inter', sans-serif";
-            }
+function showError(id, msg) {
+    const el = $(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+function hideError(id) {
+    const el = $(id);
+    if (el) el.style.display = 'none';
+}
 
-            // Update UI text
-            updateUIText();
-        }
+// =====================================================
+//  MODAL HELPERS
+// =====================================================
+function openModal(id)  { $(id).classList.add('open'); }
+function closeModal(id) { $(id).classList.remove('open'); }
+function switchModal(closeId, openId) {
+    closeModal(closeId);
+    setTimeout(() => openModal(openId), 150);
+}
 
-        function updateUIText() {
-            const t = translations[currentLanguage];
-            document.getElementById('navTitle').textContent = t.navTitle;
-            document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'AR / ع' : 'EN / ا';
-            document.getElementById('controlTitle').textContent = t.controlTitle;
-            document.getElementById('surahLabel').textContent = t.surahLabel;
-            document.getElementById('startAyahLabel').textContent = t.startAyahLabel;
-            document.getElementById('endAyahLabel').textContent = t.endAyahLabel;
-            document.getElementById('durationLabel').innerHTML = `${t.durationLabel} <span class="duration-value" id="daysValue">${document.getElementById('daysSlider').value}</span> <span id="daysText">${t.daysText}</span>`;
-            document.getElementById('daysText').textContent = t.daysText;
-            document.getElementById('totalVersesLabel').textContent = t.totalVersesLabel;
-            document.getElementById('versesPerDayLabel').textContent = t.versesPerDayLabel;
-            document.getElementById('estimatedTimeLabel').textContent = t.estimatedTimeLabel;
-            document.getElementById('minutesText').textContent = t.minutesText;
-            document.getElementById('generateBtn').textContent = t.generateBtn;
-            document.getElementById('emptyText').textContent = t.emptyText;
-        }
+// =====================================================
+//  VIEW SWITCHING
+// =====================================================
+function switchView(view) {
+    const isDash = view === 'dashboard';
+    $('dashboardView').style.display = isDash ? 'block' : 'none';
+    $('plannerView').style.display   = isDash ? 'none'  : 'block';
+    if ($('navTabs')) {
+        $('tabDash').classList.toggle('active', isDash);
+        $('tabPlan').classList.toggle('active', !isDash);
+    }
+    if (isDash) refreshDashboard();
+}
 
-        async function generatePlan() {
-            const btn = document.getElementById('generateBtn');
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.style.display = 'none';
+// =====================================================
+//  AUTH
+// =====================================================
+function restoreAuthUI() {
+    const user = getUser();
+    const token = getToken();
+    if (user && token) {
+        showLoggedIn(user);
+    }
+}
 
-            try {
-                const surahNum = parseInt(document.getElementById('surahSelect').value);
-                const startAyah = parseInt(document.getElementById('startAyah').value);
-                const endAyah = parseInt(document.getElementById('endAyah').value);
-                const days = parseInt(document.getElementById('daysSlider').value);
+function showLoggedIn(user) {
+    $('authBtns').style.display = 'none';
+    const chip = $('userChip');
+    chip.style.display = 'flex';
+    $('userAvatar').textContent = (user.fullName || user.email || 'U')[0].toUpperCase();
+    $('userNameDisplay').textContent = user.fullName || user.email || 'User';
+    // Show nav tabs
+    const tabs = $('navTabs');
+    if (tabs) tabs.style.display = 'flex';
+}
 
-                if (endAyah < startAyah) {
-                    throw new Error(translations[currentLanguage].errorEndLessThanStart);
-                }
-                if (days < 1 || days > 365) {
-                    throw new Error(translations[currentLanguage].errorInvalidDays);
-                }
+function showLoggedOut() {
+    $('authBtns').style.display = 'flex';
+    $('userChip').style.display = 'none';
+    const tabs = $('navTabs');
+    if (tabs) tabs.style.display = 'none';
+}
 
-                btn.disabled = true;
-                btn.textContent = translations[currentLanguage].generating;
+async function handleLogin(event) {
+    event.preventDefault();
+    hideError('loginError');
+    const btn = $('loginBtn');
+    const email    = $('loginEmail').value.trim();
+    const password = $('loginPassword').value;
 
-                const response = await fetch('/api/generate-plan', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: `user_${Date.now()}`,
-                        surahNumber: surahNum,
-                        startVerse: startAyah,
-                        endVerse: endAyah,
-                        durationDays: days,
-                        planName: `Lab Plan - ${surahNum}:${startAyah}-${endAyah} in ${days} days`,
-                    })
-                });
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Logging in…';
 
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.error || translations[currentLanguage].errorFailedToGenerate);
-                }
+    try {
+        const res  = await fetch('/api/auth/login', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Login failed');
 
-                displayPlan(data.plan);
-            } catch (error) {
-                errorDiv.textContent = '❌ ' + error.message;
-                errorDiv.style.display = 'block';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = translations[currentLanguage].generateBtn;
-            }
-        }
+        // Backend returns { session: { accessToken, refreshToken }, user: { id, email } }
+        const token = data.session?.accessToken;
+        if (!token) throw new Error('No token returned — check Supabase email confirmation');
 
-        function displayPlan(plan) {
-            const t = translations[currentLanguage];
-            const content = document.getElementById('planContent');
+        localStorage.setItem('qt_token', token);
+        localStorage.setItem('qt_user', JSON.stringify({
+            id: data.user?.id,
+            email: data.user?.email,
+            fullName: data.user?.fullName || email.split('@')[0],
+        }));
 
-            let html = `
-                <div class="plan-header">
-                    <h2>${plan.planName}</h2>
-                    <div class="plan-meta">
-                        <span>📅 ${plan.totalDays} ${t.daysText}</span>
-                        <span>📖 ${plan.totalVerses} ${t.versesLabel}</span>
-                    </div>
+        closeModal('loginModal');
+        showLoggedIn(getUser());
+        switchView('dashboard');
+        toast('Welcome back! 🌙');
+    } catch(e) {
+        showError('loginError', e.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+    }
+}
+
+async function handleSignup(event) {
+    event.preventDefault();
+    hideError('signupError');
+    hideError('signupSuccess');
+    const btn      = $('signupBtn');
+    const fullName = $('signupName').value.trim();
+    const email    = $('signupEmail').value.trim();
+    const password = $('signupPassword').value;
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Creating account…';
+
+    try {
+        const res  = await fetch('/api/auth/signup', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ fullName, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Signup failed');
+
+        const succ = $('signupSuccess');
+        succ.textContent = '✅ Account created! Please check your email to confirm, then log in.';
+        succ.style.display = 'block';
+
+        // Pre-fill login form
+        $('loginEmail').value = email;
+        setTimeout(() => {
+            closeModal('signupModal');
+            openModal('loginModal');
+        }, 2500);
+    } catch(e) {
+        showError('signupError', e.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+    }
+}
+
+function logout() {
+    ['qt_token','qt_user','qt_planId','qt_planData'].forEach(k => localStorage.removeItem(k));
+    showLoggedOut();
+    switchView('planner');
+    toast('Signed out successfully', 'success');
+}
+
+// =====================================================
+//  PLANNER
+// =====================================================
+function updateAyahLimits() {
+    const num   = parseInt($('surahSelect').value);
+    const surah = surahs.find(s => s.number === num);
+    if (!surah) return;
+    $('startAyah').max = surah.totalVerses;
+    $('endAyah').max   = surah.totalVerses;
+    $('startAyah').value = 1;
+    $('endAyah').value   = surah.totalVerses;
+    updateStats();
+}
+
+function updateStats() {
+    const days = parseInt($('daysSlider').value) || 1;
+    $('daysValue').textContent = days;
+    $('daysInput').value = days;
+    updatePresets();
+
+    const start = parseInt($('startAyah').value) || 1;
+    const end   = parseInt($('endAyah').value)   || 1;
+    const total = Math.max(0, end - start + 1);
+    const vpd   = (total / days).toFixed(1);
+    const mins  = Math.round((total / days) * 1.5);
+
+    $('totalVersesValue').textContent  = total;
+    $('versesPerDayValue').textContent = vpd;
+    $('estimatedTimeValue').textContent = mins + ' min';
+}
+
+function setDays(v) {
+    $('daysSlider').value = v;
+    updateStats();
+}
+function setDaysFromInput() {
+    let v = parseInt($('daysInput').value) || 30;
+    v = Math.min(365, Math.max(1, v));
+    setDays(v);
+}
+function updatePresets() {
+    const cur = parseInt($('daysSlider').value);
+    document.querySelectorAll('.preset-btn').forEach(b => {
+        b.classList.toggle('active', parseInt(b.textContent) === cur);
+    });
+}
+
+async function generatePlan() {
+    const btn      = $('generateBtn');
+    const errorDiv = $('planError');
+    hideError('planError');
+
+    const surahNum = parseInt($('surahSelect').value);
+    const start    = parseInt($('startAyah').value);
+    const end      = parseInt($('endAyah').value);
+    const days     = parseInt($('daysSlider').value);
+
+    if (end < start)          return showError('planError', t().errEndLtStart);
+    if (days < 1 || days > 365) return showError('planError', t().errBadDays);
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> ' + t().generating;
+
+    try {
+        const surah     = surahs.find(s => s.number === surahNum);
+        const surahName = currentLanguage === 'ar' ? surah?.arabicName : surah?.englishName;
+        const planName  = `${surahName} (${start}-${end}) — ${days} days`;
+
+        const res  = await fetch('/api/generate-plan', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                userId: getUser()?.id || 'guest',
+                surahNumber: surahNum,
+                startVerse: start,
+                endVerse: end,
+                durationDays: days,
+                planName,
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to generate plan');
+
+        lastGeneratedPlan = data.plan;
+        displayPlan(data.plan);
+        renderSaveButton(planName, surahNum, start, end, days);
+    } catch(e) {
+        showError('planError', e.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = t().generateBtn;
+    }
+}
+
+function renderSaveButton(planName, surahNum, start, end, days) {
+    let wrap = $('saveBtnWrap');
+    if (!wrap) {
+        wrap = document.createElement('div');
+        wrap.id = 'saveBtnWrap';
+        wrap.style.marginTop = '1rem';
+        $('planDisplayPanel').appendChild(wrap);
+    }
+    const token = getToken();
+    if (!token) {
+        wrap.innerHTML = `<button class="btn btn-ghost btn-full" onclick="openModal('loginModal')">🔐 Login to save this plan</button>`;
+        return;
+    }
+    wrap.innerHTML = `<button class="btn btn-primary btn-full" onclick="savePlanToDb()" id="savePlanBtn">💾 Save Plan to My Account</button>`;
+}
+
+async function savePlanToDb() {
+    if (!lastGeneratedPlan) return;
+    const token = getToken();
+    if (!token) { openModal('loginModal'); return; }
+
+    const btn = $('savePlanBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+    try {
+        const surahNum = parseInt($('surahSelect').value);
+        const start    = parseInt($('startAyah').value);
+        const end      = parseInt($('endAyah').value);
+        const days     = parseInt($('daysSlider').value);
+        const surah    = surahs.find(s => s.number === surahNum);
+        const planName = `${surah?.englishName} (${start}-${end}) — ${days} days`;
+
+        const res = await fetch('/api/plans', {
+            method:'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({
+                surahNumber:  surahNum,
+                startVerse:   start,
+                endVerse:     end,
+                durationDays: days,
+                planName,
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to save plan');
+
+        // Store this as the active plan
+        localStorage.setItem('qt_planId',   data.plan.id);
+        localStorage.setItem('qt_planData', JSON.stringify(data.plan.plan_data || lastGeneratedPlan));
+
+        toast('Plan saved! 💾 Switching to dashboard…');
+        setTimeout(() => switchView('dashboard'), 1200);
+    } catch(e) {
+        toast(e.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '💾 Save Plan to My Account';
+    }
+}
+
+function displayPlan(plan) {
+    const tc = t();
+    const content = $('planContent');
+    content.className = '';
+
+    let html = `
+        <div class="plan-header-info">
+            <h2>${plan.planName}</h2>
+            <div class="plan-meta">
+                <span>📅 ${plan.totalDays} ${tc.daysText}</span>
+                <span>📖 ${plan.totalVerses} ${tc.versesLabel}</span>
+            </div>
+        </div>
+        <div class="daily-targets-list">
+            <h3>${tc.dailySchedule}</h3>
+            <div class="targets-scroll">
+    `;
+
+    (plan.dailyTargets || []).forEach(target => {
+        const cls  = target.priority || 'medium';
+        const date = new Date(target.date).toLocaleDateString(currentLanguage === 'ar' ? 'ar-EG' : 'en-US');
+        const manz = (target.manzil || []).map(m =>
+            `<span class="rev-chip">${tc.versesLabel} ${m.startVerse}-${m.endVerse}</span>`
+        ).join('');
+
+        html += `
+            <div class="daily-card ${cls}">
+                <div class="card-top">
+                    <span class="day-num">${tc.dayLabel} ${target.day}</span>
+                    <span class="day-date">${date}</span>
+                    <span class="time-badge">⏱ ${target.estimatedMinutes} min</span>
                 </div>
-                <div class="daily-targets-list">
-                    <h3>${t.dailyScheduleTitle}</h3>
-                    <div class="targets-scroll">
-            `;
-
-            plan.dailyTargets.forEach(target => {
-                const priorityClass = `priority-${target.priority}`;
-                const date = new Date(target.date).toLocaleDateString(currentLanguage === 'ar' ? 'ar-EG' : 'en-US');
-                
-                let manzilHtml = '';
-                if (target.manzil.length > 0) {
-                    manzilHtml = `
-                        <div class="manzil">
-                            <span class="target-label">${t.manzilLabel}</span>
-                            <div class="revision-cycles">
-                                ${target.manzil.map(rev => 
-                                    `<span class="revision">${t.versesLabel} ${rev.startVerse}-${rev.endVerse}</span>`
-                                ).join('')}
-                            </div>
-                        </div>
-                    `;
-                }
-
-                html += `
-                    <div class="daily-target ${priorityClass}">
-                        <div class="target-header">
-                            <span class="day-number">${t.dayLabel} ${target.day}</span>
-                            <span class="target-date">${date}</span>
-                            <span class="time-estimate">${target.estimatedMinutes} ${t.minutesText}</span>
-                        </div>
-                        <div class="target-content">
-                            <div class="sabaq">
-                                <span class="target-label">${t.sabaqLabel}</span>
-                                <span class="verses-text">${t.versesLabel} ${target.sabaq.startVerse}-${target.sabaq.endVerse}</span>
-                            </div>
-                            ${manzilHtml}
-                        </div>
+                <div class="card-body">
+                    <div style="margin-bottom:0.35rem;">
+                        <span class="section-lbl">${tc.sabaqLabel}</span>
+                        <span style="color:var(--text-secondary);">${tc.versesLabel} ${target.sabaq.startVerse}–${target.sabaq.endVerse}</span>
                     </div>
-                `;
-            });
-
-            html += `
-                    </div>
+                    ${manz ? `<div><span class="section-lbl">${tc.manzilLabel}</span><span style="display:inline-flex;gap:0.3rem;flex-wrap:wrap;">${manz}</span></div>` : ''}
                 </div>
-            `;
+            </div>
+        `;
+    });
 
-            content.innerHTML = html;
+    html += `</div></div>`;
+    content.innerHTML = html;
+}
+
+// =====================================================
+//  DASHBOARD
+// =====================================================
+async function refreshDashboard() {
+    await Promise.all([
+        loadSavedPlans(),
+        loadTodaysLesson(),
+        loadDashStats(),
+    ]);
+}
+
+async function loadSavedPlans() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res  = await fetch('/api/plans', { headers: authHeaders() });
+        const data = await res.json();
+        const plans = data.plans || [];
+
+        $('plansNum').textContent = plans.length;
+
+        const list = $('savedPlansList');
+        if (!plans.length) {
+            list.innerHTML = '<p style="color:var(--text-muted);">No saved plans yet. Create one above!</p>';
+            return;
         }
 
-        // Initialize on page load
-        window.addEventListener('load', init);
-    </script>
+        const activePlanId = getPlanId();
+        list.innerHTML = plans.map(p => {
+            const isActive = p.id === activePlanId;
+            const pd = p.plan_data || {};
+            return `
+                <div class="plan-item ${isActive ? 'active-plan' : ''}">
+                    <div class="plan-info">
+                        <div class="plan-name">${p.plan_name}</div>
+                        <div class="plan-meta-small">
+                            📅 ${p.duration_days} days &bull;
+                            📖 Surah ${p.surah_number} &bull;
+                            ${p.status || 'active'}
+                            ${isActive ? '<span class="active-badge" style="margin-left:0.4rem;">Active</span>' : ''}
+                        </div>
+                    </div>
+                    <button class="btn btn-ghost" onclick="selectPlan('${p.id}', ${JSON.stringify(p).replace(/'/g,"\\'")})" style="white-space:nowrap;">
+                        ${isActive ? '✅ Active' : 'Set Active'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+    } catch(e) { console.error('loadSavedPlans error', e); }
+}
+
+function selectPlan(planId, planObj) {
+    localStorage.setItem('qt_planId',   planId);
+    localStorage.setItem('qt_planData', JSON.stringify(planObj.plan_data || {}));
+    toast('Plan set as active! 📖');
+    refreshDashboard();
+}
+
+async function loadDashStats() {
+    const token  = getToken();
+    const planId = getPlanId();
+    if (!token || !planId) return;
+
+    try {
+        const res  = await fetch(`/api/progress/${planId}/stats`, { headers: authHeaders() });
+        const data = await res.json();
+        if (!res.ok) return;
+
+        const s = data.stats || {};
+        $('streakNum').textContent  = s.streak || 0;
+        $('daysStudied').textContent = s.totalDaysCompleted || 0;
+
+        // Completion %
+        const plan     = getPlanData();
+        const totalDays = plan?.totalDays || 30;
+        const done      = s.totalDaysCompleted || 0;
+        const pct       = Math.min(100, Math.round((done / totalDays) * 100));
+        $('completePct').textContent = pct + '%';
+        $('progressBar').style.width = pct + '%';
+    } catch(e) { console.error('loadDashStats error', e); }
+}
+
+function loadTodaysLesson() {
+    const plan   = getPlanData();
+    const planId = getPlanId();
+    const el     = $('todayContent');
+
+    if (!plan || !plan.dailyTargets) {
+        el.innerHTML = `
+            <p style="color:var(--text-muted);">No active plan. <a href="#" onclick="switchView('planner')" style="color:var(--primary);">Create one!</a></p>
+        `;
+        return;
+    }
+
+    // Find the first uncompleted day
+    const done = getCompletedDays();
+    const target = plan.dailyTargets.find(t => !done.includes(t.day));
+
+    if (!target) {
+        el.innerHTML = `
+            <div style="text-align:center; padding:2rem 0;">
+                <div style="font-size:3rem; margin-bottom:0.75rem;">🎉</div>
+                <p style="color:var(--accent); font-weight:700; font-size:1.1rem;">Plan Complete!</p>
+                <p style="color:var(--text-muted); margin-top:0.5rem;">Masha'Allah! You've finished all ${plan.dailyTargets.length} days.</p>
+            </div>
+        `;
+        return;
+    }
+
+    const manzilHtml = (target.manzil || []).length > 0
+        ? `<div class="lesson-card manzil">
+                <h3>🔄 Manzil (Review)</h3>
+                ${target.manzil.map(m => `<p>Surah ${m.surah}: Verses ${m.startVerse}–${m.endVerse}</p>`).join('')}
+           </div>`
+        : '';
+
+    el.innerHTML = `
+        <div style="margin-bottom:0.75rem; color:var(--text-muted); font-size:0.85rem;">
+            Day ${target.day} of ${plan.dailyTargets.length}
+        </div>
+        <div class="lesson-card sabaq">
+            <h3>📖 New Lesson (Sabaq)</h3>
+            <p><strong>Surah ${target.sabaq.surah}</strong> — Verses ${target.sabaq.startVerse}–${target.sabaq.endVerse}</p>
+            <p class="sub">⏱️ Est. ${target.estimatedMinutes} min today</p>
+        </div>
+        ${manzilHtml}
+        <button class="done-btn" onclick="openProgressModal(${target.day}, ${target.estimatedMinutes})" id="doneBtn">
+            ✅ Mark Day ${target.day} Complete
+        </button>
+    `;
+}
+
+// =====================================================
+//  PROGRESS LOGGING
+// =====================================================
+function openProgressModal(day, estMins) {
+    _pendingDoneData = { day, estMins };
+    $('sessionMins').value = estMins || 20;
+    $('retentionSlider').value = 80;
+    $('retentionDisplay').textContent = '80';
+    hideError('progressError');
+    openModal('progressModal');
+}
+
+async function confirmMarkDone() {
+    if (!_pendingDoneData) return;
+    const token  = getToken();
+    const planId = getPlanId();
+
+    if (!token)  { closeModal('progressModal'); openModal('loginModal'); return; }
+    if (!planId) { showError('progressError', 'No active plan selected.'); return; }
+
+    const btn = $('confirmDoneBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Saving…';
+
+    const day               = _pendingDoneData.day;
+    const retentionScore    = parseInt($('retentionSlider').value);
+    const sessionDuration   = parseInt($('sessionMins').value) || 20;
+    const notes             = $('progressNotes').value.trim() || null;
+
+    try {
+        const res = await fetch('/api/progress/log', {
+            method:'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({
+                planId,
+                day,
+                sabaqCompleted:       true,
+                sabaqRetentionScore:  retentionScore,
+                manzilRetentionScores: {},
+                sessionDuration,
+                notesOrChallenges:    notes,
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to log progress');
+
+        // Mark day as locally done (optimistic, also backed by API)
+        const done = getCompletedDays();
+        if (!done.includes(day)) {
+            done.push(day);
+            localStorage.setItem('qt_done_' + planId, JSON.stringify(done));
+        }
+
+        closeModal('progressModal');
+        toast(`Day ${day} complete! Streak: ${data.streak || '—'} 🔥`);
+        _pendingDoneData = null;
+
+        // Refresh dashboard data
+        await Promise.all([loadTodaysLesson(), loadDashStats()]);
+    } catch(e) {
+        showError('progressError', e.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🎉 Submit &amp; Continue';
+    }
+}
+
+// =====================================================
+//  LANGUAGE
+// =====================================================
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+    document.documentElement.lang = currentLanguage;
+    document.documentElement.dir  = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.body.classList.toggle('arabic', currentLanguage === 'ar');
+    $('langBtn').textContent = currentLanguage === 'en' ? 'AR / ع' : 'EN / ا';
+
+    const tc = t();
+    $('controlTitle').textContent    = tc.controlTitle;
+    $('surahLabel').textContent      = tc.surahLabel;
+    $('startAyahLabel').textContent  = tc.startAyahLabel;
+    $('endAyahLabel').textContent    = tc.endAyahLabel;
+    $('daysText').textContent        = tc.daysText;
+    $('totalVersesLabel').textContent   = tc.totalVersesLabel;
+    $('versesPerDayLabel').textContent  = tc.versesPerDayLabel;
+    $('estimatedTimeLabel').textContent = tc.estimatedTimeLabel;
+    $('generateBtn').textContent        = tc.generateBtn;
+    $('emptyText') && ($('emptyText').textContent = tc.emptyText);
+}
+
+</script>
 </body>
 </html>
