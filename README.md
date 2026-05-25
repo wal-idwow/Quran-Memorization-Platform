@@ -171,7 +171,13 @@
 
   its open-source under the MIT License. See LICENSE file for details.
 
-  **IMPORTANT**: I just want to say that this project is a labor of love and dedication to making Quran memorization accessible and effective for everyone. I hope it serves as a valuable tool for learners around the world. If you have any questions, suggestions, or contributions, please don't hesitate to reach out or submit a pull request. Let's build this together! pray for me, my parents and for all those who will benefit from this project. May Allah bless our efforts and make it a means of guidance and success in this life and the hereafter. Ameen.
+  **IMPORTANT**: This project is the fruit of passion and a desire to make memorizing the Holy Qur'an more organized, accessible, and effective for everyone.
+
+  If you have any suggestions, improvements, or contributions, please feel free to open a Pull Request or share your ideas.
+
+  We ask Allah to make this work beneficial for Muslims everywhere, to accept it as a form of ongoing charity (Sadaqah Jariyah), and to bless everyone who contributes to it or benefits from it.
+
+  Please keep us and our parents in your sincere prayers. 🤍
   
   --------------------------💚 thanks 💚----------------------------------
 
