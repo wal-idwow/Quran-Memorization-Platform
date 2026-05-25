@@ -28,7 +28,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # Documentation files (keeping only README)
-/Docs
+Docs/
 
 # Text files
 *.txt
