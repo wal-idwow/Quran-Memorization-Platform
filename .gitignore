@@ -28,17 +28,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # Documentation files (keeping only README)
-30_DAY_PLAN_OVERVIEW.md
-ALGORITHM.md
-IMPLEMENTATION_SUMMARY.md
-LAB_GUIDE.md
-LAB_IMPLEMENTATION.md
-LAB_UI_UPGRADE_COMPLETE.md
-PROJECT_STRUCTURE.md
-QUICK_START.md
-I18N_AND_UI_UPGRADE.md
-DOCUMENTATION.md
-DOCUMENTATION_NEW.md
+/Docs
 
 # Text files
 *.txt
