@@ -319,6 +319,20 @@ export const Lab: React.FC = () => {
               {loading ? '⏳ ' + t('controls.generating') : '✨ ' + t('controls.generatePlan')}
             </button>
 
+            {/* footer */}
+            <footer className="bg-gray-900 text-white text-center py-4 mt-auto">
+              <p className="text-sm">
+                Powered by{" "}
+                <a href="https://wliddev.com" className="font-bold hover:underline">
+                   wliddev.com
+                </a>{" "}
+                –{" "}
+                <a href="mailto: medali25tech@gmail.com" className="text-yellow-400 hover:underline">
+                  This domain is available for acquisition
+                </a>.
+              </p>
+            </footer>   
+
             {/* Error Message */}
             {error && (
               <div className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-200">
