@@ -318,20 +318,7 @@ export const Lab: React.FC = () => {
             >
               {loading ? '⏳ ' + t('controls.generating') : '✨ ' + t('controls.generatePlan')}
             </button>
-
-            {/* footer */}
-            <footer className="bg-gray-900 text-white text-center py-4 mt-auto">
-              <p className="text-sm">
-                Powered by{" "}
-                <a href="https://wliddev.com" className="font-bold hover:underline">
-                   wliddev.com
-                </a>{" "}
-                –{" "}
-                <a href="mailto: medali25tech@gmail.com" className="text-yellow-400 hover:underline">
-                  This domain is available for acquisition
-                </a>.
-              </p>
-            </footer>   
+   
 
             {/* Error Message */}
             {error && (
@@ -434,6 +421,37 @@ export const Lab: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Global Footer */}
+      <footer className="text-center text-gray-400 py-4 border-t border-white/10"
+        style={{
+          background: 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-6 text-center">
+          <p className="text-sm text-gray-400">
+            Powered by{" "}
+            <a
+              href="https://wliddev.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              wliddev.com
+            </a>
+          </p>
+
+          <p className="mt-2 text-xs text-gray-500">
+            This domain is available for acquisition •{" "}
+            <a
+              href="mailto:medali25tech@gmail.com"
+              className="hover:text-yellow-400 transition-colors"
+            >
+              Contact Owner
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
