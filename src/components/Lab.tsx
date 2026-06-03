@@ -157,8 +157,8 @@ export const Lab: React.FC = () => {
           background: 'rgba(255, 255, 255, 0.05)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center gap-2">
+          <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
             🕋 {t('app.title')}
           </h1>
           <button
@@ -171,16 +171,16 @@ export const Lab: React.FC = () => {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {/* Control Panel - Glassmorphism */}
           <div
-            className="rounded-2xl p-6 sm:p-8 border border-white/20 sticky top-24"
+            className="rounded-2xl p-4 sm:p-6 md:p-8 border border-white/20 sticky top-16 md:top-24"
             style={{
               background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(10px)',
             }}
           >
-            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2">
               ⚙️ {t('controls.selectSurah')}
             </h2>
 
@@ -206,7 +206,7 @@ export const Lab: React.FC = () => {
             </div>
 
             {/* Ayah Range */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-200 mb-2">
                   📍 {t('controls.startAyah')}
@@ -268,12 +268,12 @@ export const Lab: React.FC = () => {
                     className="w-20 px-2 py-1 rounded bg-white/10 border border-white/20 text-white text-sm"
                     aria-label="Exact days"
                   />
-                  <div className="flex gap-1">
+                  <div className="grid grid-cols-4 sm:grid-cols-8 gap-1">
                     {[1,5,10,30,60,90,180,365].map((p) => (
                       <button
                         key={p}
                         onClick={() => setDays(p)}
-                        className="px-2 py-1 text-xs rounded bg-white/5 hover:bg-white/10 border border-white/10"
+                        className="px-1 sm:px-2 py-1 text-xs sm:text-sm rounded bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
                         aria-label={`Set ${p} days`}
                       >
                         {p}
@@ -331,13 +331,13 @@ export const Lab: React.FC = () => {
           <div>
             {plan ? (
               <div
-                className="rounded-2xl p-6 sm:p-8 border border-white/20"
+                className="rounded-2xl p-4 sm:p-6 md:p-8 border border-white/20"
                 style={{
                   background: 'rgba(255, 255, 255, 0.08)',
                   backdropFilter: 'blur(10px)',
                 }}
               >
-                <h2 className="text-2xl font-bold text-white mb-2 text-center">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 text-center">
                   {t('plan.title')} - {plan.targetSurah.arabicName} ({plan.targetSurah.name})
                 </h2>
                 <div className="flex flex-wrap justify-center gap-4 mb-6 text-sm text-gray-300">
@@ -346,7 +346,7 @@ export const Lab: React.FC = () => {
                 </div>
 
                 <h3 className="text-lg font-bold text-cyan-400 mb-4">📋 {t('plan.daily')}</h3>
-                <div className="max-h-[600px] overflow-y-auto space-y-3 pr-4">
+                <div className="max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-y-auto space-y-3 pr-2 sm:pr-4">
                   {plan.dailyTargets.map((target, index) => {
                     const priorityColors = {
                       high: 'border-l-4 border-red-500',
